@@ -3,7 +3,7 @@
 import { tool } from 'ai';
 import { z } from 'zod';
 import { supabase } from './supabase';
-import { hecAlumni, FIELD_DISPLAY_NAMES } from './types';
+import { FIELD_DISPLAY_NAMES, hecAlumni } from './types';
 
 /**
  * Normalise les termes de recherche (supprime les accents, passe en minuscule)
@@ -50,7 +50,7 @@ export const searchAlumniTool = tool({
       }
 
       // Construire la requête
-      let query = supabase.from('hec').select(columnsToSelect);
+      let query = supabase.from('emlyon').select(columnsToSelect);
 
       // Appliquer les filtres standards
       if (first_name) query = query.ilike('first_name', `%${first_name}%`);
@@ -133,7 +133,7 @@ export const getRandomAlumniTool = tool({
 
       // Construire la requête
       const { data, error } = await supabase
-        .from('hec')
+        .from('emlyon')
         .select(columnsToSelect)
         .order('id', { ascending: false })  // Une façon de pseudo-randomiser
         .limit(count);
